@@ -12,13 +12,13 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(#ff7aa2,#ffc0d6);
+background:linear-gradient(180deg,#ff7aa2,#ffd6e7);
 font-family:Georgia,serif;
 overflow:hidden;
-transition:1.5s;
+transition:2s;
 }
 
-/* cielo estrellado */
+/* estrellas */
 
 .estrellas{
 position:fixed;
@@ -32,6 +32,8 @@ pointer-events:none;
 
 .estrella{
 position:absolute;
+width:2px;
+height:2px;
 background:white;
 border-radius:50%;
 animation:brillar 2s infinite alternate;
@@ -46,16 +48,17 @@ to{opacity:1}
 
 .sobre{
 position:relative;
-width:340px;
-height:220px;
+width:360px;
+height:230px;
+perspective:1000px;
 }
 
 .base{
 position:absolute;
 width:100%;
 height:100%;
-background:#ff8aa8;
-border-radius:6px;
+background:#ff9bb5;
+border-radius:8px;
 }
 
 .tapa{
@@ -63,9 +66,10 @@ position:absolute;
 width:100%;
 height:100%;
 background:#ff6f93;
-clip-path:polygon(0 0,100% 0,50% 60%);
+clip-path:polygon(0 0,100% 0,50% 65%);
 transform-origin:top;
-transition:1s;
+transition:1.5s;
+z-index:5;
 }
 
 .abierto .tapa{
@@ -76,36 +80,39 @@ transform:rotateX(180deg);
 
 .carta{
 position:absolute;
-background:white;
 width:90%;
 left:5%;
-top:30px;
+top:40px;
+background:white;
 padding:20px;
-box-sizing:border-box;
 border-radius:8px;
-box-shadow:0 10px 30px rgba(0,0,0,.3);
-transform:translateY(80px);
-transition:1.3s;
+box-shadow:0 10px 40px rgba(0,0,0,.3);
 text-align:center;
+transform:translateY(90px);
+transition:2s;
+z-index:3;
 }
 
 .abierto .carta{
-transform:translateY(-130px);
+transform:translateY(-140px);
 }
+
+/* corazón abrir */
 
 .corazon{
 position:absolute;
-top:80px;
+top:85px;
 left:50%;
 transform:translateX(-50%);
-font-size:42px;
+font-size:45px;
 cursor:pointer;
 animation:latir 1s infinite;
+z-index:6;
 }
 
 @keyframes latir{
 0%{transform:translateX(-50%) scale(1)}
-50%{transform:translateX(-50%) scale(1.2)}
+50%{transform:translateX(-50%) scale(1.25)}
 100%{transform:translateX(-50%) scale(1)}
 }
 
@@ -116,30 +123,47 @@ font-size:28px;
 background:none;
 border:none;
 cursor:pointer;
-margin-top:10px;
+margin-top:15px;
 }
 
 /* fuego */
 
-.fuego{
-animation:fuego 2s forwards;
+.quemar{
+animation:quemar 2.5s forwards;
 }
 
-@keyframes fuego{
-0%{opacity:1;transform:scale(1)}
-50%{filter:hue-rotate(60deg)}
-100%{opacity:0;transform:scale(.2)}
+@keyframes quemar{
+
+0%{
+transform:scale(1);
+filter:none;
 }
 
-/* poema central */
+40%{
+filter:hue-rotate(80deg) brightness(1.3);
+}
+
+70%{
+transform:scale(.8) rotate(3deg);
+}
+
+100%{
+opacity:0;
+transform:scale(.1);
+}
+
+}
+
+/* poema final */
 
 .poemaFinal{
 position:absolute;
 color:white;
-font-size:24px;
+font-size:26px;
 text-align:center;
 width:80%;
 opacity:0;
+line-height:1.5;
 }
 
 </style>
@@ -170,79 +194,104 @@ opacity:0;
 
 <script>
 
-/* texto escribiéndose */
+/* texto carta */
 
-const mensaje=`amor eres todo para mí siempre estaré a tu lado ya que te amo demasiado y jamás pero jamás pienses que no te amo si yo te pienso en cada segundo de mi vida.
+const mensaje=`amor eres todo para mí siempre estaré a tu lado porque te amo demasiado.
 
-Quiero que entiendas que para mí lo eres todo, todo lo que amo, todo lo que quiero.
+Jamás pienses que no te amo,
+porque te pienso cada segundo.
 
-Te amo mi niña ya no sé que decirte solo que me traes muy enamorado y te quiero amar por la eternidad.`
+Para mí eres todo lo que amo,
+todo lo que quiero en esta vida.
+
+Te amo mi niña ❤️`
 
 let i=0
 
 function escribir(){
+
 if(i<mensaje.length){
+
 document.getElementById("texto").innerHTML+=mensaje.charAt(i)
+
 i++
+
 setTimeout(escribir,35)
+
 }
+
 }
 
 /* abrir carta */
 
 document.getElementById("abrir").onclick=()=>{
+
 document.getElementById("sobre").classList.add("abierto")
+
 escribir()
+
 }
 
 /* poema */
 
-const poema=`Si mis pensamientos fueran estrellas
-el cielo brillaría solo por ti.
+const poema=`Si el cielo tuviera un nombre
+sería el tuyo.
 
-Porque no hay momento
-donde mi mente no te busque
-ni segundo donde mi corazón
-no diga tu nombre.
+Si el amor tuviera un rostro
+sería tu sonrisa.
 
-Eres mi universo,
-mi sueño,
-mi amor eterno.`
+Porque cada estrella
+me recuerda
+que mi universo
+eres tú.`
 
 let j=0
 
 function escribirPoema(){
+
 if(j<poema.length){
+
 document.getElementById("poemaFinal").innerHTML+=poema.charAt(j)
+
 j++
-setTimeout(escribirPoema,40)
+
+setTimeout(escribirPoema,45)
+
 }
+
 }
 
 document.getElementById("poemaBtn").onclick=()=>{
 
-document.getElementById("carta").classList.add("fuego")
+document.getElementById("carta").classList.add("quemar")
 
 setTimeout(()=>{
-document.body.style.background="#000814"
+
+document.body.style.background="#02020f"
+
 document.getElementById("estrellas").style.opacity=1
+
 document.getElementById("poemaFinal").style.opacity=1
+
 escribirPoema()
-},1800)
+
+},2000)
 
 }
 
-/* estrellas */
+/* crear estrellas */
 
-for(let s=0;s<120;s++){
+for(let s=0;s<180;s++){
 
 let star=document.createElement("div")
+
 star.className="estrella"
 
-star.style.width=Math.random()*3+"px"
-star.style.height=star.style.width
 star.style.top=Math.random()*100+"vh"
+
 star.style.left=Math.random()*100+"vw"
+
+star.style.animationDuration=(Math.random()*2+1)+"s"
 
 document.getElementById("estrellas").appendChild(star)
 
