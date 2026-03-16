@@ -1,1 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Carta para ti</title>
 
+<style>
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(#ff7aa2,#ffc0d6);
+font-family:Georgia,serif;
+overflow:hidden;
+transition:1.5s;
+}
+
+/* cielo estrellado */
+
+.estrellas{
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+opacity:0;
+pointer-events:none;
+}
+
+.estrella{
+position:absolute;
+background:white;
+border-radius:50%;
+animation:brillar 2s infinite alternate;
+}
+
+@keyframes brillar{
+from{opacity:.2}
+to{opacity:1}
+}
+
+/* sobre */
+
+.sobre{
+position:relative;
+width:340px;
+height:220px;
+}
+
+.base{
+position:absolute;
+width:100%;
+height:100%;
+background:#ff8aa8;
+border-radius:6px;
+}
+
+.tapa{
+position:absolute;
+width:100%;
+height:100%;
+background:#ff6f93;
+clip-path:polygon(0 0,100% 0,50% 60%);
+transform-origin:top;
+transition:1s;
+}
+
+.abierto .tapa{
+transform:rotateX(180deg);
+}
+
+/* carta */
+
+.carta{
+position:absolute;
+background:white;
+width:90%;
+left:5%;
+top:30px;
+padding:20px;
+box-sizing:border-box;
+border-radius:8px;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+transform:translateY(80px);
+transition:1.3s;
+text-align:center;
+}
+
+.abierto .carta{
+transform:translateY(-130px);
+}
+
+.corazon{
+position:absolute;
+top:80px;
+left:50%;
+transform:translateX(-50%);
+font-size:42px;
+cursor:pointer;
+animation:latir 1s infinite;
+}
+
+@keyframes latir{
+0%{transform:translateX(-50%) scale(1)}
+50%{transform:translateX(-50%) scale(1.2)}
+100%{transform:translateX(-50%) scale(1)}
+}
+
+/* botón poema */
+
+.poemaBtn{
+font-size:28px;
+background:none;
+border:none;
+cursor:pointer;
+margin-top:10px;
+}
+
+/* fuego */
+
+.fuego{
+animation:fuego 2s forwards;
+}
+
+@keyframes fuego{
+0%{opacity:1;transform:scale(1)}
+50%{filter:hue-rotate(60deg)}
+100%{opacity:0;transform:scale(.2)}
+}
+
+/* poema central */
+
+.poemaFinal{
+position:absolute;
+color:white;
+font-size:24px;
+text-align:center;
+width:80%;
+opacity:0;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="estrellas" id="estrellas"></div>
+
+<div class="sobre" id="sobre">
+
+<div class="base"></div>
+<div class="tapa"></div>
+
+<div class="corazon" id="abrir">❤️</div>
+
+<div class="carta" id="carta">
+
+<p id="texto"></p>
+
+<button class="poemaBtn" id="poemaBtn">🫀</button>
+
+</div>
+
+</div>
+
+<div class="poemaFinal" id="poemaFinal"></div>
+
+<script>
+
+/* texto escribiéndose */
+
+const mensaje=`amor eres todo para mí siempre estaré a tu lado ya que te amo demasiado y jamás pero jamás pienses que no te amo si yo te pienso en cada segundo de mi vida.
+
+Quiero que entiendas que para mí lo eres todo, todo lo que amo, todo lo que quiero.
+
+Te amo mi niña ya no sé que decirte solo que me traes muy enamorado y te quiero amar por la eternidad.`
+
+let i=0
+
+function escribir(){
+if(i<mensaje.length){
+document.getElementById("texto").innerHTML+=mensaje.charAt(i)
+i++
+setTimeout(escribir,35)
+}
+}
+
+/* abrir carta */
+
+document.getElementById("abrir").onclick=()=>{
+document.getElementById("sobre").classList.add("abierto")
+escribir()
+}
+
+/* poema */
+
+const poema=`Si mis pensamientos fueran estrellas
+el cielo brillaría solo por ti.
+
+Porque no hay momento
+donde mi mente no te busque
+ni segundo donde mi corazón
+no diga tu nombre.
+
+Eres mi universo,
+mi sueño,
+mi amor eterno.`
+
+let j=0
+
+function escribirPoema(){
+if(j<poema.length){
+document.getElementById("poemaFinal").innerHTML+=poema.charAt(j)
+j++
+setTimeout(escribirPoema,40)
+}
+}
+
+document.getElementById("poemaBtn").onclick=()=>{
+
+document.getElementById("carta").classList.add("fuego")
+
+setTimeout(()=>{
+document.body.style.background="#000814"
+document.getElementById("estrellas").style.opacity=1
+document.getElementById("poemaFinal").style.opacity=1
+escribirPoema()
+},1800)
+
+}
+
+/* estrellas */
+
+for(let s=0;s<120;s++){
+
+let star=document.createElement("div")
+star.className="estrella"
+
+star.style.width=Math.random()*3+"px"
+star.style.height=star.style.width
+star.style.top=Math.random()*100+"vh"
+star.style.left=Math.random()*100+"vw"
+
+document.getElementById("estrellas").appendChild(star)
+
+}
+
+</script>
+
+</body>
+</html>
